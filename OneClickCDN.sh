@@ -106,6 +106,55 @@ function check_TS
 	fi
 }
 
+# function install_os_dep
+# {
+	# if [ -f /etc/lsb-release ]
+	# then
+		# cat /etc/lsb-release | grep "DISTRIB_RELEASE=18." >/dev/null
+		# if [ $? = 0 ]
+		# then
+			# OS=UBUNTU18
+			# apt-get build-dep trafficserver -y
+			# apt-get install git git-core libhwloc-dev libhwloc5 libunwind8 libunwind8-dev autoconf git git-core wget curl tar certbot automake libtool pkg-config libmodule-install-perl gcc g++ libssl-dev tcl-dev libpcre3-dev libcap-dev libhwloc-dev libncurses5-dev libcurl4-openssl-dev flex autotools-dev bison debhelper dh-apparmor gettext intltool-debian libbison-dev libexpat1-dev libfl-dev libsigsegv2 libsqlite3-dev m4 po-debconf tcl8.6-dev zlib1g-dev -y
+		# else
+			# cat /etc/lsb-release | grep "DISTRIB_RELEASE=20." >/dev/null
+			# if [ $? = 0 ]
+			# then
+				# OS=UBUNTU20
+			# else
+				# echo "Sorry, this script only supports Ubuntu 20 and Debian 10."
+				# echo 
+				# exit 1
+			# fi
+		# fi
+	# elif [ -f /etc/debian_version ] ; then
+		# cat /etc/debian_version | grep "^10." >/dev/null
+		# if [ $? = 0 ] ; then
+			# OS=DEBIAN10
+			# echo "Installing depedencies..."
+			# apt-get update && apt-get dist-upgrade -y
+			# apt-get install autoconf git git-core wget curl tar certbot automake libtool pkg-config libmodule-install-perl gcc g++ libssl-dev tcl-dev libpcre3-dev libcap-dev libhwloc-dev libncurses5-dev libcurl4-openssl-dev flex autotools-dev bison debhelper dh-apparmor gettext intltool-debian libbison-dev libexpat1-dev libfl-dev libsigsegv2 libsqlite3-dev m4 po-debconf tcl8.6-dev zlib1g-dev -y
+	 
+		# else
+			# cat /etc/debian_version | grep "^9." >/dev/null
+			# if [ $? = 0 ] ; then
+				# OS=DEBIAN9
+				# echo "Support of Debian 9 is experimental.  You may get error in TLS handshakes."
+				# echo "Please tweak the OS_CHECK_ENABLED setting if you still wish to install on Debian 9."
+				# echo 
+				# exit 1
+			# else
+				# echo "Sorry, this script only supports Ubuntu 20 and Debian 10."
+				# echo 
+				# exit 1
+			# fi
+		# fi
+	# else
+		# echo "Sorry, this script only supports Ubuntu 20 and Debian 10."
+		# echo 
+		# exit 1
+	# fi
+# }
 
 function install_TS
 # {
@@ -161,6 +210,7 @@ function install_TS
 	mkdir /etc/trafficserver/ssl
 	chown nobody /etc/trafficserver/ssl
 	chmod 0760 /etc/trafficserver/ssl
+	make clean
 	cd ${current_dir}
 	ldconfig
 	trafficserver start
